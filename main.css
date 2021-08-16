@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    height: 89vh;
+}
+
+.board{
+    display: grid;
+    height: 400px;
+    width: 400px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1rem;
+    background-color: black;
+}
+
+.box{
+    background-color: #eee;
+    text-align: center;
+    padding: 47px;
+}

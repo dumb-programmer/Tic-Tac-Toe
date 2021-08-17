@@ -8,8 +8,8 @@
 
 .board{
     display: grid;
-    height: 400px;
-    width: 400px;
+    height: 450px;
+    width: 450px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 1rem;
@@ -19,5 +19,7 @@
 .box{
     background-color: #eee;
     text-align: center;
-    padding: 47px;
+    padding: 35px;
+    cursor: pointer;
+    font-size: 24px;
 }

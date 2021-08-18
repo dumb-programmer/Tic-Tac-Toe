@@ -34,21 +34,25 @@ let GameBoard = (function () {
         gameBoard[index] = value;
         render();
     }
-
+    
     return { init, getBoard, updateBoard };
-
+    
 })();
 
 
 let Game = (function () {
     let p1 = Player("Asad", "X");
-
+    
+    const turnAnnouncer = document.querySelector("#turn-announcer");
+    const winnerAnnouncer = document.querySelector("#winner-announcer");
+    
     const playerChoice = p1.getChoice();
     const computerChoice = playerChoice === "X" ? "O" : "X";
-
+    
     function checkWin() {
         let currentBoard = GameBoard.getBoard();
-        let win = 0;
+        // let win = 0;
+        
         if (currentBoard[0] === playerChoice && currentBoard[4] === playerChoice && currentBoard[8] === playerChoice) {
             console.log("Player Won");
             win = 1;
@@ -130,13 +134,6 @@ let Game = (function () {
             win = 1;
             return true;
         }
-
-        if (win) removeEventListeners();
-
-        // else if(!(currentBoard.includes(undefined))){
-        //     return true;
-        // }
-
         else {
             return false;
         }
@@ -145,9 +142,11 @@ let Game = (function () {
     function move(index, choice) {
         GameBoard.updateBoard(index, choice);
     }
-
+    
     function addEventListeners() {
         let boxes = document.querySelectorAll(".box");
+        console.log("ADD EVENT LISTENER CALLED");
+        turnAnnouncer.textContent = "Turn : Player";
         boxes.forEach((box) => {
             box.addEventListener('click', playerPlay.bind(box));
         });
@@ -155,42 +154,43 @@ let Game = (function () {
 
     function removeEventListeners() {
         let boxes = document.querySelectorAll(".box");
-        console.log('removeEventListener called')
+        console.log('removeEventListener called');
         boxes.forEach((box) => {
-            box.removeEventListener('click', playerPlay);
+            box.removeEventListener('click', playerPlay.bind(box), true);
         });
     }
 
     function playerPlay() {
+        console.log("PLAYER PLAY CALLED");
+        turnAnnouncer.textContent = "Turn : Player";
         if (!checkWin()) {
             let index = this.getAttribute('data-box-index') - 1;
             console.log(index, playerChoice);
             if (!this.textContent) {
                 move(index, playerChoice);
+                if (!checkWin()) {
+                    computerPlay(computerChoice);
+                }
             }
-            else {
-                return;
-            }
-            computerPlay(computerChoice);
+        }
+        else{
+            removeEventListeners();
         }
     }
 
-    function computerPlay(computerChoice) {
-        removeEventListeners();
-        if (!checkWin()) {
-            let index = Math.floor(Math.random() * 9);
-            let board = GameBoard.getBoard();
-            if (board[index] != undefined) {
-                while (board[index] != undefined) {
-                    index = Math.floor(Math.random() * 9);
-                }
+    function computerPlay() {
+        turnAnnouncer.textContent = "Turn : Computer";
+        let index = Math.floor(Math.random() * 9);
+        let board = GameBoard.getBoard();
+        if (board[index] != undefined) {
+            while (board[index] != undefined) {
+                index = Math.floor(Math.random() * 9);
             }
-            console.log(index, computerChoice);
-            Game.move(index, computerChoice);
         }
-        else {
-            return;
-        }
+        console.log(index, computerChoice);
+        Game.move(index, computerChoice);
+        checkWin();
+        turnAnnouncer.textContent = "Turn : Player";
     }
 
     function play() {

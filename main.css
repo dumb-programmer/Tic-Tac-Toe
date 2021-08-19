@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 89vh;
@@ -22,4 +22,8 @@
     padding: 35px;
     cursor: pointer;
     font-size: 24px;
+}
+
+#reset-btn{
+    margin-top: 10px;
 }

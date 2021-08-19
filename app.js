@@ -114,9 +114,19 @@ let Game = (function () {
             console.log("Computer Won");
             return true;
         }
+        else if(currentBoard.length === 9 && (!currentBoard.includes(undefined))){
+            console.log(currentBoard);
+            return draw();
+        }
         else {
             return false;
         }
+    }
+
+
+    function draw(){
+        console.log("DRAW");
+        return 1;
     }
 
     function move(index, choice) {
@@ -160,8 +170,14 @@ let Game = (function () {
         let index = Math.floor(Math.random() * 9);
         let board = GameBoard.getBoard();
         if (board[index] != undefined) {
-            while (board[index] != undefined) {
+            let i = 0;
+            if(i === 8){
+                draw();
+                return;
+            }
+            while (board[index] != undefined && i < board.length) {
                 index = Math.floor(Math.random() * 9);
+                i++;
             }
         }
         console.log("COMPUTER MOVE : ",index, computerChoice);
